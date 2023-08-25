@@ -1,0 +1,47 @@
+{% extends 'tours/base.html' %}
+{% block container %}
+
+    <h1 class="display-5 mt-4">Летим из <span data-test="from">Петербурга</span></h1>
+    <p class="mb-4" >Найдено
+
+        <span data-test="tourcount">
+{{ count_spb.count_spb }}
+        </span>
+{% if count_spb.count_spb == 1 %}
+        тур, от
+{% elif count_spb.count_spb == 2 or count_spb.count_spb == 3 or count_spb.count_spb == 4 %}
+        тура, от
+{% else %}
+        туров, от
+        <span data-test="pricemin">
+{% endif %}
+{{ count_spb.min_price_spb }}
+        </span>
+        до
+        <span data-test="pricemax">
+            {{ count_spb.max_price_spb }}
+        </span> и от <span data-test="nightsmax">
+            {{ count_spb.min_nights_spb }}
+        </span> ночей до <span data-test="nightsmax">
+            {{ count_spb.max_nights_spb }}
+        </span> ночей</p>
+
+    <!-- CARDS -->
+
+<div class="row mt-5" data-test="cards">
+{% for index, value in tours.items %}
+    {% if 'spb' in value.departure %}
+    <div class="col-4" data-test="card">
+        <div class="card mb-3" >
+            <img src="{{ value.picture }}" class="card-img-top img-fluid" data-test="picture">
+            <div class="card-body">
+                <h5 class="card-title">{{ value.title }}</h5>
+                <p class="card-text">{{ value.description }}</p>
+                <a href="{% url 'tour' %}" class="btn btn-sm btn-primary" data-test="tourlink">Подробнее</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endfor %}
+</div>
+{% endblock %}

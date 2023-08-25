@@ -1,0 +1,47 @@
+{% extends 'tours/base.html' %}
+{% block container %}
+
+    <h1 class="display-5 mt-4">Летим из <span data-test="from">Казани</span></h1>
+    <p class="mb-4" >Найдено
+
+        <span data-test="tourcount">
+{{ count_kazan.count_kazan }}
+        </span>
+{% if count_kazan.count_kazan == 1 %}
+        тур, от
+{% elif count_kazan.count_kazan == 2 or count_kazan.count_kazan == 3 or count_kazan.count_kazan == 4 %}
+        тура, от
+{% else %}
+        туров, от
+        <span data-test="pricemin">
+{% endif %}
+{{ count_kazan.min_price_kazan }}
+        </span>
+        до
+        <span data-test="pricemax">
+            {{ count_kazan.max_price_kazan }}
+        </span> и от <span data-test="nightsmax">
+            {{ count_kazan.min_nights_kazan }}
+        </span> ночей до <span data-test="nightsmax">
+            {{ count_kazan.max_nights_kazan }}
+        </span> ночей</p>
+
+    <!-- CARDS -->
+
+<div class="row mt-5" data-test="cards">
+{% for index, value in tours.items %}
+    {% if 'kazan' in value.departure %}
+    <div class="col-4" data-test="card">
+        <div class="card mb-3" >
+            <img src="{{ value.picture }}" class="card-img-top img-fluid" data-test="picture">
+            <div class="card-body">
+                <h5 class="card-title">{{ value.title }}</h5>
+                <p class="card-text">{{ value.description }}</p>
+                <a href="{% url 'tour' %}" class="btn btn-sm btn-primary" data-test="tourlink">Подробнее</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endfor %}
+</div>
+{% endblock %}
